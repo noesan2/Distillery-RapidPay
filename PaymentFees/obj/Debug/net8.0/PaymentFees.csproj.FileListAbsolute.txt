@@ -1,0 +1,12 @@
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\bin\Debug\net8.0\PaymentFees.deps.json
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\bin\Debug\net8.0\PaymentFees.dll
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\bin\Debug\net8.0\PaymentFees.pdb
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\obj\Debug\net8.0\PaymentFees.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\obj\Debug\net8.0\PaymentFees.AssemblyInfoInputs.cache
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\obj\Debug\net8.0\PaymentFees.AssemblyInfo.cs
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\obj\Debug\net8.0\PaymentFees.csproj.CoreCompileInputs.cache
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\obj\Debug\net8.0\PaymentFees.dll
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\obj\Debug\net8.0\refint\PaymentFees.dll
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\obj\Debug\net8.0\PaymentFees.pdb
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\obj\Debug\net8.0\ref\PaymentFees.dll
+C:\Users\noeli\source\repos\RapidPay\PaymentFees\obj\Debug\net8.0\PaymentFees.csproj.AssemblyReference.cache

@@ -1,0 +1,38 @@
+[
+  {
+    "ContainingType": "RapidPay.Controllers.CardManagmentController",
+    "Method": "Create",
+    "RelativePath": "api/CardManagment/Create",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RapidPay.Controllers.CardManagmentController",
+    "Method": "GetBalance",
+    "RelativePath": "api/CardManagment/GetBalance",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RapidPay.Controllers.CardManagmentController",
+    "Method": "Pay",
+    "RelativePath": "api/CardManagment/Pay",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "details",
+        "Type": "RapidPay.Controllers.RequestDto.PaymentDetailsDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
