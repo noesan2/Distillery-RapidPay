@@ -1,34 +1,52 @@
-To run the application just F5 should be enough.
-Below I leave some queries to import in Postman and test it, checkout the port where the application startups
-User and password it's preloaded at the context with admin:admin
+To run the application you need to:
 
-// Create a card
-curl --location 'https://localhost:7145/api/Card' \
---header 'Content-Type: application/json' \
---header 'Authorization: Basic YWRtaW46YWRtaW4=' \
---data '{
-	"Name": "Adrian"
-}'
+1 - First request a Bearer token
+	* Run app "Identity.JwtToken.API"
+	* As a regular user you can Create an get Balance. But you need an extra Claim in your jwt token to make a Payment, add Claim named "accountHolder" when needed to authorize a payment. 
+	* You can use Postman to request a new jwt token using the below query;
+	
+	// Request a valid Bearer Token
+	curl --location 'https://localhost:7159/api/JwtIdentity/' \
+	--header 'Content-Type: application/json' \
+	--data-raw '{
+		"UserId": "47370384-344a-437b-8eb6-2a69bc669d53",
+		"Email": "noelia.sandoval@distillery.com",
+		"Claims": {
+			"accountHolder": true
+		}
 
-// Do a payment
-curl --location 'https://localhost:7145/api/Payments' \
---header 'Content-Type: application/json' \
---header 'Authorization: Basic YWRtaW46YWRtaW4=' \
---data '{
-	"CardId": "0306d638-a90e-4d0e-bbee-275d85410215",
-	"Amount": 123.02
-}'
+	}'
+	
+2 - Run API and manage your cards and balance
+	* Once with a valid Jwt Token you can start using the RapidPay app to manage Cards
+	* First you, as a user needs to get a new card number, (you will obtain 20000 of credit by default to spend). Use the below request
+		
+		// Request new Card
+		curl --location 'http://localhost:16471/api/CardManagment/create' \
+		--header 'Authorization: Bearer **Paste here the Bearer token**'
 
-// Get balance
-curl --location 'https://localhost:7145/api/Balance/0306d638-a90e-4d0e-bbee-275d85410215' \
---header 'Authorization: Basic YWRtaW46YWRtaW4='
+	* Create an extra Card to send the first Payment
+	
+	* Now you can start paying using your new Card. Use the below request
+		
+		curl --location 'http://localhost:16471/api/CardManagment/Pay' \
+		--header 'Authorization: Bearer **Paste here the Bearer token**' \
+		--header 'Content-Type: application/json' \
+		--data '{
+			"CardNumberFrom": "1",
+			"CardNumberTo": "2",
+			"Amount": "10"
+		}'
+		
+	* Request Balance using below query:
 
-Things that can be improve:
-* Unit test, EVERYWHERE, code it’s designed to be tested using mocks, controllers and services can be mocked using Moq and repositories can be tested using an in memory database.
-* Logging: missing logging at many places for example authentication and upload this logging to a cloud service like AppInsights or New Relic.
-* Error handling: should be a centralized error handling that logs exceptions that bubbles up and in low environments show them to the user.
-* Swagger should have the basic authentication configured
-* Models from the database can be different from domain models and mapped using Automapper.
-* In case universal fees exchange has big and complex logic it should have its own project or even be a micro service.
-* I like to implement health checks in the application and usually reduce the troubleshooting time.
 
+		// Request Balance
+		curl --location 'http://localhost:16471/api/CardManagment/GetBalance/1' \
+		--header 'Authorization: Bearer **Paste here the Bearer token**'
+		
+		
+	* There is a background service running, simulating a UFE service. When a new payment is done, this services is queried to calculate the apropiated Fee to be applied. In the VS Output window, you can track hourly the last value 
+		When process start: - PaymentFees.RecurrentEventService: Information: Timed Hosted Service running.
+		Every Hour: - PaymentFees.RecurrentEventService: Information: Timed Hosted Service is working. UFE Decimal: 0.43696166797015534
+		

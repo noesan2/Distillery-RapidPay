@@ -7,33 +7,50 @@ namespace RapidPay.Logic
     public class PaymentManager : IPaymentManager
     {
         private ICardsRepository _cardsRepository;
-        private static double CurrentFeeInUse = 0;
+        private static decimal CurrentFeeInUse = 1;
         private IUfeService _ufeService;
+        private object _locker = new object();
 
         public PaymentManager(ICardsRepository cardsRepository
             , IUfeService ufeService)
         {
             _cardsRepository = cardsRepository;
-            CurrentFeeInUse = 0;
+            CurrentFeeInUse = 1;
             _ufeService = ufeService;
         }
 
-        public void ProcessPayment(int cardNumber, decimal amount)
+        public void ProcessPayment(long cardNumberFrom, long cardNumberTo, decimal amount)
         {
-
-            var currentValue = _cardsRepository.GetByNumber(cardNumber);
-            if (currentValue != null)
+            lock (_locker)
             {
-                var newBalance = currentValue.Balance - amount;
-                var newValue = new CardModel { Number = cardNumber, Balance = newBalance };
-                _cardsRepository.Update(newValue);
-            }
-            else
-            {
-                throw new NullReferenceException();
+                var currentValueFrom = _cardsRepository.GetByNumber(cardNumberFrom);
+                var currentValueTo = _cardsRepository.GetByNumber(cardNumberTo);
+
+                if (currentValueFrom != null && currentValueTo != null)
+                {
+                    var newBalance = currentValueFrom.Balance - ( amount + (amount * GetLastFee()));
+                    var newValue = new CardModel { Number = cardNumberFrom, Balance = newBalance };
+                    _cardsRepository.Update(newValue);
+
+                    var newBalanceTo = currentValueTo.Balance + amount;
+                    var newValueTo = new CardModel { Number = cardNumberTo, Balance = newBalanceTo };
+                    _cardsRepository.Update(newValueTo);
+                }
+                else
+                {
+                    throw new NullReferenceException();
+
+                }
 
             }
 
+        }
+
+        private decimal GetLastFee()
+        {
+            CurrentFeeInUse *= Convert.ToDecimal(_ufeService.GetFeeDecimal());
+
+            return CurrentFeeInUse;
         }
     }
 }

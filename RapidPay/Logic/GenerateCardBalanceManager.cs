@@ -1,10 +1,20 @@
-﻿namespace RapidPay.Logic
+﻿using RapidPay.Data;
+using RapidPay.Models;
+
+namespace RapidPay.Logic
 {
     public class GenerateCardBalanceManager : IGenerateCardBalanceManager
     {
-        public object Generate(int cardNumber)
+        private ICardsRepository _cardsRepository;
+
+        public GenerateCardBalanceManager(ICardsRepository cardsRepository)
         {
-            throw new NotImplementedException();
+            _cardsRepository = cardsRepository; 
+        }
+
+        public CardModel Generate(long cardNumber)
+        {
+            return _cardsRepository.GetByNumber(cardNumber);
         }
     }
 }

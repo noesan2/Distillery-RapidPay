@@ -2,9 +2,9 @@
 {
     public class PaymentDetailsDto
     {
-        public int CardNumberTo { get; set; }
+        public long CardNumberFrom { get; set; }
         
-        public int CardNumberFrom { get; set; }
+        public long CardNumberTo { get; set; }
 
         public decimal Amount { get; set; }
     }

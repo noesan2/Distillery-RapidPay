@@ -1,7 +1,9 @@
-﻿namespace RapidPay.Logic
+﻿using RapidPay.Models;
+
+namespace RapidPay.Logic
 {
     public interface IGenerateCardBalanceManager
     {
-        object Generate(int cardNumber);
+        CardModel Generate(long cardNumber);
     }
 }

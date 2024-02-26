@@ -29,7 +29,7 @@ namespace PaymentFees
             _logger.LogInformation("Timed Hosted Service running.");
 
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(5));
+                TimeSpan.FromHours(1));
 
             return Task.CompletedTask;
         }
@@ -54,7 +54,7 @@ namespace PaymentFees
             var newValue = _ufeService.UpdateFeeDecimal();
 
             _logger.LogInformation(
-                "Timed Hosted Service is working. Count: {Count}", newValue);
+                "Timed Hosted Service is working. UFE Decimal: {Count}", newValue);
         }
     }
 }

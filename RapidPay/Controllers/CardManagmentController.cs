@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RapidPay.API.AuthPolicies;
 using RapidPay.Controllers.RequestDto;
+using RapidPay.Data;
 using RapidPay.Logic;
 
 namespace RapidPay.Controllers
@@ -37,17 +38,17 @@ namespace RapidPay.Controllers
         [Authorize(Policy = Holders.AccountHolderPolicyName)]
         public IActionResult Pay([FromBody] PaymentDetailsDto details)
         {
-            _paymentManager.ProcessPayment(details.CardNumberFrom, details.Amount);
+            _paymentManager.ProcessPayment(details.CardNumberFrom, details.CardNumberTo, details.Amount);
             return Ok();
         }
 
         [HttpGet]
-        [Route("GetBalance")]
+        [Route("GetBalance/{cardId}")]
         [Authorize]
-        public IActionResult GetBalance()
+        public IActionResult GetBalance(long cardId)
         {
-            _generateCardBalanceManager.Generate(11);
-            return Ok();
+            var balance = _generateCardBalanceManager.Generate(cardId);
+            return Ok(balance);
         }
     }
 }

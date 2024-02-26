@@ -2,6 +2,6 @@
 {
     public interface IPaymentManager
     {
-        void ProcessPayment(int card, decimal amount);
+        void ProcessPayment(long cardFrom, long cardTo, decimal amount);
     }
 }
